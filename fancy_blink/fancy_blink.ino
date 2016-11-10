@@ -1,6 +1,6 @@
 /*
  * Fancy Blink
- * Turns a multiple LEDs on in a configurable manner.
+ * Turns multiple LEDs on in a configurable manner.
  */
 
 struct LedData {
@@ -17,9 +17,11 @@ void update_led_data(LedData &data, unsigned long t) {
   }  
 }
 
-const unsigned int LED_COUNT = 1;
+const unsigned int LED_COUNT = 3;
 LedData leds[] = {
-  { 13, 500, 0, 0 }
+  { 8, 200, 0, 0 },
+  { 9, 300, 0, 0 },
+  { 10, 500, 0, 0 },
 };
 
 void setup() {
