@@ -10,26 +10,30 @@ struct LedData {
   unsigned int state;
 };
 
+void update_led_data(LedData &data, unsigned long t) {
+  if ((t - data.last_time) > data.duration) {
+    data.state = 255 - data.state;
+    data.last_time = t; 
+  }  
+}
+
 const unsigned int LED_COUNT = 1;
-LedData LEDS[] = {
+LedData leds[] = {
   { 13, 500, 0, 0 }
 };
 
 void setup() {
   unsigned long last_time = millis();
   for (int index = 0; index < LED_COUNT; index++) {
-    pinMode(LEDS[index].pin, OUTPUT);
-    LEDS[index].last_time = last_time;
+    pinMode(leds[index].pin, OUTPUT);
+    leds[index].last_time = last_time;
   }
 }
 
 void loop() {
   unsigned long t = millis();
   for (int index = 0; index < LED_COUNT; index++) {
-    if ((t - LEDS[index].last_time) > LEDS[index].duration) {
-      LEDS[index].state = 255 - LEDS[index].state;
-      LEDS[index].last_time = t; 
-    }
-    digitalWrite(LEDS[index].pin, LEDS[index].state);
+    update_led_data(leds[index], t);
+    digitalWrite(leds[index].pin, leds[index].state);
   }
 }
