@@ -3,21 +3,28 @@
  * Turns a multiple LEDs on in a configurable manner.
  */
 
-const int FIRST_LED = 13;
-const int DELAY = 500;
-unsigned long last_time;
-int first_led_state = 0;
+const unsigned int LED_COUNT = 1;
+const unsigned int LEDS[] = {13};
+const unsigned int DELAY[] = {500};
+
+unsigned long last_times[] = {0};
+unsigned int led_states[] = {0};
 
 void setup() {
-  pinMode(FIRST_LED, OUTPUT);
-  last_time = millis();
+  unsigned long last_time = millis();
+  for (int index = 0; index < LED_COUNT; index++) {
+    pinMode(LEDS[index], OUTPUT);
+    last_times[index] = last_time;
+  }
 }
 
 void loop() {
   unsigned long t = millis();
-  if ((t - last_time) > DELAY) {
-    first_led_state = 255 - first_led_state;
-    last_time = t;
+  for (int index = 0; index < LED_COUNT; index++) {
+    if ((t - last_times[index]) > DELAY[index]) {
+      led_states[index] = 255 - led_states[index];
+      last_times[index] = t; 
+    }
+    digitalWrite(LEDS[index], led_states[index]);
   }
-  digitalWrite(FIRST_LED, first_led_state);
 }
