@@ -6,7 +6,7 @@
 const int FIRST_LED = 13;
 const int DELAY = 500;
 unsigned long last_time;
-bool first_led_state = false;
+int first_led_state = 0;
 
 void setup() {
   pinMode(FIRST_LED, OUTPUT);
@@ -16,12 +16,8 @@ void setup() {
 void loop() {
   unsigned long t = millis();
   if ((t - last_time) > DELAY) {
-    first_led_state = !first_led_state;
+    first_led_state = 255 - first_led_state;
     last_time = t;
   }
-  if (first_led_state) {
-    digitalWrite(FIRST_LED, HIGH);
-  } else {
-    digitalWrite(FIRST_LED, LOW);
-  }
+  digitalWrite(FIRST_LED, first_led_state);
 }
